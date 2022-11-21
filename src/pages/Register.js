@@ -73,7 +73,7 @@ function Register() {
       });
       const response = await axios.post(REGISTER_URL, payload, {
         headers: { "Content-Type": "application/json" },
-        // withCredentials: true,
+        withCredentials: true,
       });
       setIsLoading(false);
       setSuccess(true);

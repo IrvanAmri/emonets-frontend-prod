@@ -205,10 +205,10 @@ function Catatanku() {
           </div>
           <div className="headerRight">
             <div className="item" onClick={handlePemasukanPopUp}>
-              <h2>Input Pengeluaran</h2>
+              <h2>Input Pemasukan</h2>
             </div>
             <div className="item" onClick={handlePengeluaranPopUp}>
-              <h2>Input Pemasukan</h2>
+              <h2>Input Pengeluaran</h2>
             </div>
           </div>
         </div>
@@ -245,7 +245,7 @@ function Catatanku() {
       >
         <div className="content">
           <div className="header">
-            <h3>Pengeluaran</h3>
+            <h3>Pemasukan</h3>
             <div className="silang" onClick={handleExit}>
               <img src={silang} alt="" />
             </div>
@@ -315,7 +315,7 @@ function Catatanku() {
       >
         <div className="content">
           <div className="header">
-            <h3>Pemasukan</h3>
+            <h3>Pengeluaran</h3>
             <div className="silang" onClick={handleExit}>
               <img src={silang} alt="" />
             </div>

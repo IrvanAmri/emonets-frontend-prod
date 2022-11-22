@@ -78,6 +78,7 @@ function Register() {
       setIsLoading(false);
       setSuccess(true);
     } catch (error) {
+      setIsLoading(false);
       if (!error?.response) {
         setErrMsg("server tidak merespon");
       } else {

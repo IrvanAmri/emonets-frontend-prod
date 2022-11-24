@@ -23,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
         {/* <Route path="/catatan" element={<Catatanku />}></Route> */}
+        <Route path="/catatanku" element={<Catatanku />}></Route>
         <Route
           path="/createnewpassword"
           element={<CreateNewPassword />}
@@ -32,7 +33,6 @@ function App() {
 
         {/* protected */}
         <Route element={<RequiredAuth />}>
-        <Route path="/catatanku" element={<Catatanku />}></Route>
         </Route>
       </Route>
     </Routes>

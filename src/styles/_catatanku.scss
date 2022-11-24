@@ -208,6 +208,8 @@
             }
             th,
             td {
+            max-width: 300px; 
+            word-wrap: break-word;
             padding: 0.5em;
             text-align: center;
             }
@@ -220,13 +222,18 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                height: 100%;
                 .imgContainer{
-                    width: 40%;
+                    // background-color: red;
+                    width: 120px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     .item{
-                        width: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 30%;
                         img{
                             width: 100%;
                         }

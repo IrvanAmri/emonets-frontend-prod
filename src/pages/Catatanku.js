@@ -137,9 +137,9 @@ function Catatanku() {
     "07": "Juli",
     "08": "Agustus",
     "09": "September",
-    10: "Oktober",
-    11: "November",
-    12: "Desember",
+    "10": "Oktober",
+    "11": "November",
+    "12": "Desember",
     key: function (n) {
       return this[Object.keys(this)[(n + 14) % 12]];
     },
@@ -216,11 +216,11 @@ function Catatanku() {
           <table className="">
             <thead>
               <tr>
-                <th>Tanggal</th>
-                <th>Kategori</th>
-                <th>Deskripsi</th>
-                <th>Jumlah</th>
-                <th>Aksi</th>
+                <th width="15%">Tanggal</th>
+                <th width="10%">Kategori</th>
+                <th width="45%">Deskripsi</th>
+                <th width="15%">Jumlah</th>
+                <th width="10%">Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -240,9 +240,8 @@ function Catatanku() {
         <img src={logo} alt="" />
       </div>
 
-      <div
-        className={pemasukanPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"}
-      >
+      <div className={pemasukanPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"}
+>
         <div className="content">
           <div className="header">
             <h3>Pemasukan</h3>
@@ -267,7 +266,7 @@ function Catatanku() {
                     <option value="kesehatan">Kesehatan</option>
                     <option value="hobby">Hobby</option>
                     <option value="sedekah">Sedekah</option>
-                    <option value="danlainlain">Dan lain-lain</option>
+                    <option value="lainya">Lainya</option>
                   </select>
                   <h4 className="subTitle">Tanggal</h4>
                   <input
@@ -282,6 +281,9 @@ function Catatanku() {
                     type="number"
                     className="inputForm"
                     placeholder="Masukkan jumlah"
+                    minLength='4'
+                    maxLength='7'
+                    required
                     value={nominal}
                     onChange={(e) => setNominal(e.target.value)}
                   />
@@ -292,6 +294,7 @@ function Catatanku() {
                     type="text"
                     className="inputForm descForm"
                     placeholder="Masukkan deskripsi"
+                    maxLength='50'
                     value={deskripsi}
                     onChange={(e) => setDeskripsi(e.target.value)}
                   />

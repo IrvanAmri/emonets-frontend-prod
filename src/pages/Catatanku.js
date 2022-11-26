@@ -74,7 +74,8 @@ function Catatanku() {
   // nyoba dulu start
 
   const [nominal, setNominal] = useState(0);
-  const [kategori, setKategori] = useState("makanan");
+  const [kategoriKeluar, setKategoriKeluar] = useState("makanan");
+  const [kategoriMasuk, setKategoriMasuk] = useState("gaji");
   const [deskripsi, setDeskripsi] = useState("");
   const [date, setDate] = useState();
   const [list_transaksi, setList_transaksi] = useState([]);
@@ -86,7 +87,7 @@ function Catatanku() {
       try {
         const payload = JSON.stringify({
           nominal: nominal,
-          kategori: kategori,
+          kategori: kategoriMasuk,
           deskripsi: deskripsi,
           tanggal: date,
           tipe: 0,
@@ -99,13 +100,46 @@ function Catatanku() {
         });
         setList_transaksi(response.data.payload);
       } catch (error) {
+        //handle error di masa depan
         console.log(error.response);
       }
     };
     postTransaksi();
     setPemasukanPopUp(false);
     setNominal(0);
-    setKategori("makanan");
+    setKategoriMasuk("gaji");
+    setDeskripsi("");
+    setDate({});
+  };
+
+  const handleSubmitPengeluaran = (e) => {
+    e.preventDefault();
+
+    const postTransaksi = async () => {
+      try {
+        const payload = JSON.stringify({
+          nominal: nominal,
+          kategori: kategoriKeluar,
+          deskripsi: deskripsi,
+          tanggal: date,
+          tipe: 1,
+        });
+        const response = await axios.post("/api/transaksi", payload, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${cookies.auth.accessToken}`,
+          },
+        });
+        setList_transaksi(response.data.payload);
+      } catch (error) {
+        //handle error di masa depan
+        console.log(error.response);
+      }
+    };
+    postTransaksi();
+    setPengeluaranPopUp(false);
+    setNominal(0);
+    setKategoriKeluar("makanan");
     setDeskripsi("");
     setDate({});
   };
@@ -137,9 +171,9 @@ function Catatanku() {
     "07": "Juli",
     "08": "Agustus",
     "09": "September",
-    "10": "Oktober",
-    "11": "November",
-    "12": "Desember",
+    10: "Oktober",
+    11: "November",
+    12: "Desember",
     key: function (n) {
       return this[Object.keys(this)[(n + 14) % 12]];
     },
@@ -204,11 +238,11 @@ function Catatanku() {
             </div>
           </div>
           <div className="headerRight">
-            <div className="item" onClick={handlePemasukanPopUp}>
-              <h2>Input Pemasukan</h2>
-            </div>
             <div className="item" onClick={handlePengeluaranPopUp}>
               <h2>Input Pengeluaran</h2>
+            </div>
+            <div className="item" onClick={handlePemasukanPopUp}>
+              <h2>Input Pemasukan</h2>
             </div>
           </div>
         </div>
@@ -240,11 +274,14 @@ function Catatanku() {
         <img src={logo} alt="" />
       </div>
 
-      <div className={pemasukanPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"}
->
+      <div
+        className={
+          pengeluaranPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"
+        }
+      >
         <div className="content">
           <div className="header">
-            <h3>Pemasukan</h3>
+            <h3>Pengeluaran</h3>
             <div className="silang" onClick={handleExit}>
               <img src={silang} alt="" />
             </div>
@@ -258,8 +295,8 @@ function Catatanku() {
                     name=""
                     id=""
                     className="inputKategori"
-                    onChange={(e) => setKategori(e.target.value)}
-                    value={kategori}
+                    onChange={(e) => setKategoriKeluar(e.target.value)}
+                    value={kategoriKeluar}
                   >
                     <option value="makanan">Makanan dan Minuman</option>
                     <option value="transportasi">Transportasi</option>
@@ -281,8 +318,8 @@ function Catatanku() {
                     type="number"
                     className="inputForm"
                     placeholder="Masukkan jumlah"
-                    minLength='4'
-                    maxLength='7'
+                    minLength="4"
+                    maxLength="7"
                     required
                     value={nominal}
                     onChange={(e) => setNominal(e.target.value)}
@@ -294,14 +331,14 @@ function Catatanku() {
                     type="text"
                     className="inputForm descForm"
                     placeholder="Masukkan deskripsi"
-                    maxLength='50'
+                    maxLength="50"
                     value={deskripsi}
                     onChange={(e) => setDeskripsi(e.target.value)}
                   />
                 </div>
               </div>
 
-              <button class="submit" onClick={handleSubmitPemasukan}>
+              <button class="submit" onClick={handleSubmitPengeluaran}>
                 {" "}
                 Simpan{" "}
               </button>
@@ -312,13 +349,11 @@ function Catatanku() {
         <div className="popUpCategory"></div>
       </div>
       <div
-        className={
-          pengeluaranPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"
-        }
+        className={pemasukanPopUp ? "popUpCatatanku " : "popUpCatatanku hidden"}
       >
         <div className="content">
           <div className="header">
-            <h3>Pengeluaran</h3>
+            <h3>Pemasukan</h3>
             <div className="silang" onClick={handleExit}>
               <img src={silang} alt="" />
             </div>
@@ -328,7 +363,13 @@ function Catatanku() {
               <div className="formPemasukan">
                 <div className="leftSide">
                   <h4 className="subTitle">Kategori</h4>
-                  <select name="" id="" className="inputKategori">
+                  <select
+                    name=""
+                    id=""
+                    className="inputKategori"
+                    onChange={(e) => setKategoriMasuk(e.target.value)}
+                    value={kategoriMasuk}
+                  >
                     <option value="gaji">Gaji</option>
                     <option value="bonus">Bonus</option>
                     <option value="hasilpenjualan">Hasil Penjualan</option>
@@ -339,12 +380,19 @@ function Catatanku() {
                     type="date"
                     className="inputForm"
                     placeholder="Masukkan tanggal"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                   />
                   <h4 className="subTitle">Jumlah</h4>
                   <input
                     type="number"
                     className="inputForm"
                     placeholder="Masukkan jumlah"
+                    minLength="4"
+                    maxLength="7"
+                    required
+                    value={nominal}
+                    onChange={(e) => setNominal(e.target.value)}
                   />
                 </div>
                 <div className="rightSide">
@@ -353,11 +401,17 @@ function Catatanku() {
                     type="text"
                     className="inputForm descForm"
                     placeholder="Masukkan deskripsi"
+                    maxLength="50"
+                    value={deskripsi}
+                    onChange={(e) => setDeskripsi(e.target.value)}
                   />
                 </div>
               </div>
 
-              <button class="submit"> Simpan </button>
+              <button class="submit" onClick={handleSubmitPemasukan}>
+                {" "}
+                Simpan{" "}
+              </button>
             </form>
           </div>
         </div>

@@ -71,6 +71,8 @@ function Catatanku() {
 
   // integrasi end
 
+
+  
   // nyoba dulu start
 
   const [nominal, setNominal] = useState(0);

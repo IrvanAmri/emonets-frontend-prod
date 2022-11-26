@@ -79,12 +79,13 @@ function Register() {
       setIsLoading(false);
       setSuccess(true);
     } catch (error) {
+      setIsLoading(false);
       if (!error?.response) {
         setErrMsg("server tidak merespon");
       } else {
         setErrMsg(error.response.data.messages);
       }
-      errRef.current.focus();
+      // errRef.current.focus();
     }
   };
 
@@ -135,12 +136,14 @@ function Register() {
             <div className="contentContainer">
               <form onSubmit={handleSubmit}>
                 <h1 className="formTitle">Register</h1>
-                {errMsg &&  
-                <div ref={errRef} aria-live="assertive" className="errorMsg">
-                  <i><RiCloseCircleLine/></i>
-                  <p>{errMsg}</p>
-                </div>
-                }
+                {errMsg && (
+                  <div ref={errRef} aria-live="assertive" className="errorMsg">
+                    <i>
+                      <RiCloseCircleLine />
+                    </i>
+                    <p>{errMsg}</p>
+                  </div>
+                )}
                 <div className="input">
                   <i>
                     <BsPerson />
@@ -150,8 +153,8 @@ function Register() {
                     name="username"
                     placeholder="username"
                     required
-                    minLength='4'
-                    maxLength='10'
+                    minLength="4"
+                    maxLength="10"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     // tambahan irvan
@@ -182,8 +185,8 @@ function Register() {
                     name="password"
                     placeholder="password"
                     required
-                    minLength='6'
-                    maxLength='12'
+                    minLength="6"
+                    maxLength="12"
                     value={passwordInput}
                   />
                   <div className="showPassword" onClick={togglePassword}>
@@ -201,8 +204,8 @@ function Register() {
                     placeholder="confirm password"
                     value={confirmPasswordInput}
                     required
-                    minLength='6'
-                    maxLength='12'
+                    minLength="6"
+                    maxLength="12"
                   />
                   <div className="showPassword" onClick={toggleConfirmPassword}>
                     {confirmPasswordType === "password" ? (

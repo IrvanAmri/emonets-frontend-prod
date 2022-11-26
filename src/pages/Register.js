@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/style.scss";
 import registerHero from "../images/registerHero.png";
 import logo from "../images/logo.png";
+import succ from "../images/success.png";
 import backButton from "../images/backButton.png";
 import { BsPerson } from "react-icons/bs";
 import { VscMail } from "react-icons/vsc";
@@ -117,15 +118,10 @@ function Register() {
 
   return (
     <>
-      {success ? (
-        <section>
-          <h1>Success!</h1>
-          <p>silahkan cek email anda</p>
-        </section>
-      ) : isLoading ? (
-        <Loading />
-      ) : (
         <div className="form">
+          {isLoading ? (
+        <Loading />
+      ): <></>}
           <div className="left">
             <img src={registerHero} alt="" />
             <div className="logo">
@@ -134,102 +130,113 @@ function Register() {
           </div>
           <div className="right">
             <div className="contentContainer">
-              <form onSubmit={handleSubmit}>
-                <h1 className="formTitle">Register</h1>
-                {errMsg && (
-                  <div ref={errRef} aria-live="assertive" className="errorMsg">
+            {success ? (
+              <section className="succ">
+                <h1 className="formTitle">Registration Success!</h1>
+                <div className="img-suc">
+                  <img src={succ} alt="" />
+                </div>
+                <p>We have sent an activation link to your email, please check your email for further information.</p>
+              </section>
+              ) : (
+              <>
+                <form onSubmit={handleSubmit}>
+                  <h1 className="formTitle">Register</h1>
+                  {errMsg && (
+                    <div ref={errRef} aria-live="assertive" className="errorMsg">
+                      <i>
+                        <RiCloseCircleLine />
+                      </i>
+                      <p>{errMsg}</p>
+                    </div>
+                  )}
+                  <div className="input">
                     <i>
-                      <RiCloseCircleLine />
+                      <BsPerson />
                     </i>
-                    <p>{errMsg}</p>
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="username"
+                      required
+                      minLength="4"
+                      maxLength="10"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      // tambahan irvan
+                      ref={userRef}
+                      // tambahan irvan
+                    />
                   </div>
-                )}
-                <div className="input">
-                  <i>
-                    <BsPerson />
-                  </i>
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="username"
-                    required
-                    minLength="4"
-                    maxLength="10"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    // tambahan irvan
-                    ref={userRef}
-                    // tambahan irvan
-                  />
-                </div>
-                <div className="input">
-                  <i>
-                    <VscMail />
-                  </i>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="input">
-                  <i>
-                    <BsKey />
-                  </i>
-                  <input
-                    type={passwordType}
-                    onChange={handlePasswordChange}
-                    name="password"
-                    placeholder="password"
-                    required
-                    minLength="6"
-                    maxLength="12"
-                    value={passwordInput}
-                  />
-                  <div className="showPassword" onClick={togglePassword}>
-                    {passwordType === "password" ? <BsEye /> : <BsEyeSlash />}
+                  <div className="input">
+                    <i>
+                      <VscMail />
+                    </i>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
-                </div>
-                <div className="input">
-                  <i>
-                    <BsKey />
-                  </i>
-                  <input
-                    type={confirmPasswordType}
-                    onChange={handleConfirmPasswordChange}
-                    name="password"
-                    placeholder="confirm password"
-                    value={confirmPasswordInput}
-                    required
-                    minLength="6"
-                    maxLength="12"
-                  />
-                  <div className="showPassword" onClick={toggleConfirmPassword}>
-                    {confirmPasswordType === "password" ? (
-                      <BsEye />
-                    ) : (
-                      <BsEyeSlash />
-                    )}
+                  <div className="input">
+                    <i>
+                      <BsKey />
+                    </i>
+                    <input
+                      type={passwordType}
+                      onChange={handlePasswordChange}
+                      name="password"
+                      placeholder="password"
+                      required
+                      minLength="6"
+                      maxLength="12"
+                      value={passwordInput}
+                    />
+                    <div className="showPassword" onClick={togglePassword}>
+                      {passwordType === "password" ? <BsEye /> : <BsEyeSlash />}
+                    </div>
                   </div>
-                </div>
-                <button type="submit">Register</button>
-              </form>
-              <h3>
-                Already have an account?{" "}
-                <Link to="../login">
-                  <span>Login</span>
-                </Link>
-              </h3>
+                  <div className="input">
+                    <i>
+                      <BsKey />
+                    </i>
+                    <input
+                      type={confirmPasswordType}
+                      onChange={handleConfirmPasswordChange}
+                      name="password"
+                      placeholder="confirm password"
+                      value={confirmPasswordInput}
+                      required
+                      minLength="6"
+                      maxLength="12"
+                    />
+                    <div className="showPassword" onClick={toggleConfirmPassword}>
+                      {confirmPasswordType === "password" ? (
+                        <BsEye />
+                      ) : (
+                        <BsEyeSlash />
+                      )}
+                    </div>
+                  </div>
+                  <button type="submit">Register</button>
+                </form>
+                <h3>
+                  Already have an account?{" "}
+                  <Link to="../login">
+                    <span>Login</span>
+                  </Link>
+                </h3>
+              </>)}
             </div>
             <Link className="backButton" to="../">
               <img src={backButton} alt="" />
             </Link>
           </div>
         </div>
-      )}
+      )
     </>
   );
 }

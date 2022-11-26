@@ -31,7 +31,38 @@
         align-items: center;
         justify-content: center;
         .contentContainer{
+            // background-color: red;
             width: 450px;
+            .succ{
+                border: 2px solid #f1b14a90;
+                .formTitle{
+                    font-size: 1.9rem;
+                }
+                display: flex;
+                border-radius: 1em;
+                padding: 0 50px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background-color: #FDF3E4;
+                // padding-top: 30px;
+
+                width: 100%;
+                gap: 30px;
+                height: 400px;
+                p{
+                    text-align: center;
+                    color: #4D774E;
+                    font-size: 1.2rem;
+                }
+            }
+            .img-suc{
+                margin-top: -50px;
+                width: 80px;
+                img{
+                    width: 100%;
+                }
+            }
             .formTitle{
                 text-align: center;
                 color: $oren;

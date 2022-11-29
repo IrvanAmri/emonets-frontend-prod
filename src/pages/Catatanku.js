@@ -13,6 +13,7 @@ import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { useCookies } from "react-cookie";
 import Feed from "../components/Feed";
+import Loading from "./Loading";
 
 function Catatanku() {
   // integrasi start
@@ -21,6 +22,8 @@ function Catatanku() {
   // const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isLoading, setIsloading] = useState(false);
 
   // const { auth, setAuth } = useAuth();
   const [cookies, setCookies] = useCookies(["auth"]);
@@ -49,12 +52,15 @@ function Catatanku() {
 
     const getTransaksi = async () => {
       try {
+        setIsloading(true);
         const response = await axios.get("/api/transaksi", {
           headers: { authorization: `Bearer ${cookies.auth.accessToken}` },
           signal: controller.signal,
         });
+        setIsloading(false);
         isMounted && setList_transaksi(response.data.payload);
       } catch (error) {
+        setIsloading(false);
         console.log(error.response);
         navigate("/login", { state: { from: location }, replace: true });
       }
@@ -71,8 +77,6 @@ function Catatanku() {
 
   // integrasi end
 
-
-  
   // nyoba dulu start
 
   const [nominal, setNominal] = useState(0);
@@ -94,14 +98,17 @@ function Catatanku() {
           tanggal: date,
           tipe: 0,
         });
+        setIsloading(true);
         const response = await axios.post("/api/transaksi", payload, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${cookies.auth.accessToken}`,
           },
         });
+        setIsloading(false);
         setList_transaksi(response.data.payload);
       } catch (error) {
+        setIsloading(false);
         //handle error di masa depan
         console.log(error.response);
       }
@@ -126,14 +133,17 @@ function Catatanku() {
           tanggal: date,
           tipe: 1,
         });
+        setIsloading(true);
         const response = await axios.post("/api/transaksi", payload, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${cookies.auth.accessToken}`,
           },
         });
+        setIsloading(false);
         setList_transaksi(response.data.payload);
       } catch (error) {
+        setIsloading(false);
         //handle error di masa depan
         console.log(error.response);
       }
@@ -147,14 +157,21 @@ function Catatanku() {
   };
 
   const handleDeleteTransaksi = async (id) => {
-    const response = await axios.delete("/api/transaksi/" + id, {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${cookies.auth.accessToken}`,
-      },
-    });
-
-    setList_transaksi(response.data.payload);
+    try {
+      setIsloading(true);
+      const response = await axios.delete("/api/transaksi/" + id, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${cookies.auth.accessToken}`,
+        },
+      });
+      setIsloading(false);
+      setList_transaksi(response.data.payload);
+    } catch (error) {
+      setIsloading(false);
+      //handle error di masa depan
+      console.log(error.response);
+    }
   };
 
   // nyoba dulu end
@@ -209,6 +226,7 @@ function Catatanku() {
   };
   return (
     <div className="catatanku">
+      {isLoading ? <Loading /> : <></>}
       <div className="left">
         <div className="img">
           <img src="" alt="" />

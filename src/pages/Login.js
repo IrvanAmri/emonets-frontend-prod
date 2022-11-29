@@ -13,12 +13,15 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import { useRef, useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useCookies } from "react-cookie";
+import Loading from "./Loading";
 
 const LOGIN_URL = "/api/login";
 
 function Login() {
   //ini
   const [cookies, setCookie] = useCookies(["auth"]);
+
+  const [isLoading, setIsloading] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,16 +55,18 @@ function Login() {
     formData.append("password", password);
 
     try {
+      setIsloading(true);
       const response = await axios.post(LOGIN_URL, formData.toString(), {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
-      console.log(JSON.stringify(response.data));
+      setIsloading(false);
       const accessToken = response.data.payload.access_token;
       setCookie("auth", { accessToken });
       setEmail("");
       setPassword("");
       navigate(from, { replace: true });
     } catch (error) {
+      setIsloading(false);
       if (!error.response) {
         setErrMsg("Server tidak merespon");
       } else {
@@ -87,6 +92,7 @@ function Login() {
 
   return (
     <div className="form">
+      {isLoading ? <Loading /> : <></>}
       <div className="left">
         <img src={loginHero} alt="" />
         <div className="logo">
@@ -97,15 +103,17 @@ function Login() {
         <div className="contentContainer">
           <form action="">
             <h1 className="formTitle">Login</h1>
-          {/* error messages sementara */}
-          {errMsg &&  
-          <div ref={errRef} aria-live="assertive" className="errorMsg">
-            <i><RiCloseCircleLine/></i>
-            <p>{errMsg}</p>
-          </div>
-          }
+            {/* error messages sementara */}
+            {errMsg && (
+              <div ref={errRef} aria-live="assertive" className="errorMsg">
+                <i>
+                  <RiCloseCircleLine />
+                </i>
+                <p>{errMsg}</p>
+              </div>
+            )}
 
-          {/* error messages sementara */}
+            {/* error messages sementara */}
             <div className="input">
               <i>
                 <VscMail />
@@ -129,8 +137,8 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 name="password"
                 required
-                minLength='6'
-                maxLength='12'
+                minLength="6"
+                maxLength="12"
                 placeholder="password"
                 value={password}
               />

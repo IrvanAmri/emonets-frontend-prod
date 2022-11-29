@@ -93,7 +93,6 @@ function Register() {
   const [passwordType, setPasswordType] = useState("password");
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
-    console.log(e.target.value);
   };
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -118,32 +117,37 @@ function Register() {
 
   return (
     <>
-        <div className="form">
-          {isLoading ? (
-        <Loading />
-      ): <></>}
-          <div className="left">
-            <img src={registerHero} alt="" />
-            <div className="logo">
-              <img src={logo} alt="" />
-            </div>
+      <div className="form">
+        {isLoading ? <Loading /> : <></>}
+        <div className="left">
+          <img src={registerHero} alt="" />
+          <div className="logo">
+            <img src={logo} alt="" />
           </div>
-          <div className="right">
-            <div className="contentContainer">
+        </div>
+        <div className="right">
+          <div className="contentContainer">
             {success ? (
               <section className="succ">
                 <h1 className="formTitle">Registration Success!</h1>
                 <div className="img-suc">
                   <img src={succ} alt="" />
                 </div>
-                <p>We have sent an activation link to your email, please check your email for further information.</p>
+                <p>
+                  We have sent an activation link to your email, please check
+                  your email for further information.
+                </p>
               </section>
-              ) : (
+            ) : (
               <>
                 <form onSubmit={handleSubmit}>
                   <h1 className="formTitle">Register</h1>
                   {errMsg && (
-                    <div ref={errRef} aria-live="assertive" className="errorMsg">
+                    <div
+                      ref={errRef}
+                      aria-live="assertive"
+                      className="errorMsg"
+                    >
                       <i>
                         <RiCloseCircleLine />
                       </i>
@@ -213,7 +217,10 @@ function Register() {
                       minLength="6"
                       maxLength="12"
                     />
-                    <div className="showPassword" onClick={toggleConfirmPassword}>
+                    <div
+                      className="showPassword"
+                      onClick={toggleConfirmPassword}
+                    >
                       {confirmPasswordType === "password" ? (
                         <BsEye />
                       ) : (
@@ -229,13 +236,14 @@ function Register() {
                     <span>Login</span>
                   </Link>
                 </h3>
-              </>)}
-            </div>
-            <Link className="backButton" to="../">
-              <img src={backButton} alt="" />
-            </Link>
+              </>
+            )}
           </div>
+          <Link className="backButton" to="../">
+            <img src={backButton} alt="" />
+          </Link>
         </div>
+      </div>
       )
     </>
   );
